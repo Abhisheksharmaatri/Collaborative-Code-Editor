@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Creating a real-time collaborative code editor and debugger is a complex project that involves several stages of development, from planning and design to implementation and testing. To ensure that you have a comprehensive understanding of the project, I'll provide a detailed plan with elaborated steps and a timeline.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "ioredis": "^5.3.2",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.29.4",
+    "mongoose": "^7.5.0",
+    "redis": "^4.6.8",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.8",
+    "mocha": "^10.2.0",
+    "socket.io-client": "^4.7.2",
+    "supertest": "^6.3.3"
+  }
+}
