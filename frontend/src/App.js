@@ -14,11 +14,7 @@ import setupSocketListeners from './middleware/WebSockets';
 
 //Set up the webscokets
 // import socket from './middleware/WebSockets';
-const socket = io(backend.url, {
-  transports: ['websocket'],
-  autoConnect: false,
-  reconnection: false,
-});
+const socket = io(backend.url);
 
 function App() {
   //server pages based on the current url
