@@ -2,7 +2,6 @@ const express = require('express')
 const http = require('http')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const config = require('./config')
 const mongoose = require('mongoose')
 const socketIo = require('socket.io') // Import socket.io
 const socketHandler = require('./middleware/socketHandler')
