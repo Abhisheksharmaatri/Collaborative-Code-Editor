@@ -2,11 +2,11 @@ const express = require('express')
 const http = require('http')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const config = require('./config')
 const mongoose = require('mongoose')
 const socketIo = require('socket.io') // Import socket.io
 const socketHandler = require('./middleware/socketHandler')
 const app = express()
+const config = require('./config')
 
 const server = http.createServer(app)
 const io = socketIo(server, {
@@ -41,14 +41,14 @@ app.use('/room', roomCommentRoutes)
 app.use(error)
 
 mongoose
-  .connect(config.db.url)
+  .connect(process.env.DB_URL)
   .then(result => {
-    console.log('Connected to database')
-    server.listen(config.port, () => {
-      console.log('Server is running on port 4000')
-    })
+    console.log('Connected to database');
+    server.listen(process.env.PORT, () => {
+      console.log(`Server is running on port ${process.env.PORT}`);
+    });
   })
-  .catch(err => console.log(err))
+  .catch(err => console.log(err));
 
 // WebSocket handling
 socketHandler(server)

@@ -1,7 +1,4 @@
 module.exports = {
-  db: {
-    url: 'mongodb+srv://alexwolfdog:alexwolfdog@code-collabortator.licgrid.mongodb.net/?retryWrites=true&w=majority&appName=Code-Collabortator'
-  },
   user: {
     name: {
       length: 5
