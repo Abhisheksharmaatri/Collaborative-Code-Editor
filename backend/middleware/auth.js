@@ -12,7 +12,7 @@ module.exports = async (req, res, next) => {
     err.statusCode = 401
     next(err)
   } else {
-    const authToken = token.split(' ')[1]
+    const authToken = token
     try {
       const decoded = jwt.verify(authToken, config.jwt.secret)
       const user = await User.findById(decoded.id)

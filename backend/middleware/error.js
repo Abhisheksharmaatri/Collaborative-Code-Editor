@@ -1,5 +1,5 @@
 const handler = (err, req, res, next) => {
-  console.log('error: ', err)
+  console.log('error: ', { ...err })
   const statusCode = err.statusCode || 500
   let message
   if (typeof err.message === 'array') {

@@ -5,13 +5,13 @@ const bodyParser = require('body-parser')
 const config = require('./config')
 const mongoose = require('mongoose')
 const socketIo = require('socket.io') // Import socket.io
-
+const socketHandler = require('./middleware/socketHandler')
 const app = express()
 
 const server = http.createServer(app)
 const io = socketIo(server, {
   cors: {
-    origin: 'http://localhost:3000', // Replace with the allowed origin(s)
+    origin: config.cors.origin, // Replace with the allowed origin(s)
     methods: ['GET', 'POST'], // Specify the allowed methods
     credentials: true // Allow credentials (cookies, authorization headers)
   }
@@ -19,6 +19,8 @@ const io = socketIo(server, {
 
 const userRoutes = require('./routes/user')
 const roomRoutes = require('./routes/room')
+const roomUserRoutes = require('./routes/room-user')
+const roomCommentRoutes = require('./routes/comment')
 const error = require('./middleware/error')
 
 app.use(cors(config.cors))
@@ -26,11 +28,15 @@ app.use(bodyParser.json())
 
 app.use((req, res, next) => {
   console.log('Request: ', req.body)
+  //Params
+  console.log('Params: ', req.params)
   next()
 })
 
 app.use('/user', userRoutes)
 app.use('/room', roomRoutes)
+app.use('/room', roomUserRoutes)
+app.use('/room', roomCommentRoutes)
 
 app.use(error)
 
@@ -45,29 +51,6 @@ mongoose
   .catch(err => console.log(err))
 
 // WebSocket handling
-io.on('connection', socket => {
-  console.log('A user connected to WebSocket')
-
-  socket.on('message', msg => {
-    console.log('message: ' + msg)
-    io.emit('message', msg)
-  })
-
-  socket.on('room-updated', room => {
-    console.log('room-updated: ' + room)
-    io.emit('room-updated', room)
-  })
-
-  // Add WebSocket event handlers here
-  // For example:
-  // socket.on('chat message', (msg) => {
-  //   console.log('message: ' + msg);
-  //   io.emit('chat message', msg);
-  // });
-
-  socket.on('disconnect', () => {
-    console.log('A user disconnected from WebSocket')
-  })
-})
+socketHandler(server)
 
 module.exports = app

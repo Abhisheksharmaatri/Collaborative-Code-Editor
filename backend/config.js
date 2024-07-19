@@ -1,6 +1,6 @@
 module.exports = {
   db: {
-    url: 'mongodb+srv://Abhishek:abhaykush@article.40hpefr.mongodb.net/?retryWrites=true&w=majority'
+    url: 'mongodb+srv://alexwolfdog:alexwolfdog@code-collabortator.licgrid.mongodb.net/?retryWrites=true&w=majority&appName=Code-Collabortator'
   },
   user: {
     name: {
@@ -24,6 +24,10 @@ module.exports = {
   },
   port: 4000,
   cors: {
-    origin: 'http://localhost:3000'
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://86s0767f-3000.inc1.devtunnels.ms'
+    ]
   }
 }

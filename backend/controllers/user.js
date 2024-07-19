@@ -11,6 +11,7 @@ const signup = async (req, res, next) => {
   const error = validationResult(req)
   if (!error.isEmpty()) {
     const err = new Error('Validation failed')
+    err.error = { ...error }
     err.message = error.array()
     err.statusCode = 422
     next(err)
@@ -86,7 +87,9 @@ const get = async (req, res, next) => {
   } else {
     const email = req.user.email
     try {
-      const user = await User.findOne({ email }).populate('room.id')
+      const user = await User.findOne({ email })
+        .populate('room')
+        .populate('room.id')
       if (!user) {
         const error = new Error('User not found')
         error.statusCode = 401
@@ -108,9 +111,19 @@ const get = async (req, res, next) => {
   }
 }
 
-const logout = async () => {
-  // TODO: implement logout
-}
+// const logout = async () => {
+//   const error = validationResult(req)
+//   if (!error.isEmpty()) {
+//     const err = new Error('Validation failed')
+//     err.message = error.array()
+//     err.statusCode = 422
+//     next(err)
+//   } else {
+//     //Emplement the logic to delete the token from user side
+//     const toke
+//   }
+//   // TODO: implement logout
+// }
 
 const deleteUser = async (req, res, next) => {
   const error = validationResult(req)

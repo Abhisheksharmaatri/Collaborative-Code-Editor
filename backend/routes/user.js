@@ -15,16 +15,14 @@ router.post(
       .withMessage('Please enter a valid email')
       .normalizeEmail(),
 
-    body(
-      'password',
-      'Please enter a password with only numbers and text and at least 5 characters'
-    )
+    body('password')
       .trim()
       .isLength({ min: config.user.password.length })
-      .isAlphanumeric(),
+      .withMessage(
+        'Please enter a password with only numbers and text and at least 5 characters'
+      ),
 
     body('name', 'Please enter a name with only text and at least 3 characters')
-      .isLength({ min: config.user.name.length })
       .isAlphanumeric()
       .trim()
   ],

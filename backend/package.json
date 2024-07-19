@@ -4,7 +4,8 @@
   "description": "Creating a real-time collaborative code editor and debugger is a complex project that involves several stages of development, from planning and design to implementation and testing. To ensure that you have a comprehensive understanding of the project, I'll provide a detailed plan with elaborated steps and a timeline.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",

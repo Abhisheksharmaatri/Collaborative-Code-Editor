@@ -1,4 +1,6 @@
-const { validationResult } = require('express-validator')
+const {
+  validationResult
+} = require('express-validator')
 const mongoose = require('mongoose')
 const Room = require('../models/room')
 const User = require('../models/user')
@@ -34,6 +36,18 @@ const create = async (req, res, next) => {
         role: 'owner'
       })
       await user.save()
+      await socket.emit('room-created', {
+        id: result._id,
+        name: result.name,
+        description: result.description,
+        code: result.code,
+        message: 'Room created',
+        owner: {
+          id: user._id,
+          name: user.name,
+          email: user.email
+        }
+      })
       return res.json({
         success: true
       })
@@ -57,6 +71,7 @@ const get = async (req, res, next) => {
       const room = await Room.findById(id)
         .populate('owner', 'name email')
         .populate('users', 'name email')
+        .populate('chat.sender', 'name email')
 
       if (!room) {
         const error = new Error('Room not found')
@@ -86,6 +101,7 @@ const update = async (req, res, next) => {
   const error = validationResult(req)
   if (!error.isEmpty()) {
     const err = new Error('Validation failed')
+    console.log(error)
     err.message = error.array()
     err.statusCode = 422
     next(err)
@@ -157,12 +173,26 @@ const remove = async (req, res, next) => {
       } else {
         const result = await Room.findByIdAndDelete(id)
         const owner = await User.findById(room.owner)
-        owner.room.pull({ id: id })
+        owner.room.pull({
+          id: id
+        })
         await owner.save()
         room.users.forEach(async user => {
           const owner = await User.findById(user)
-          owner.room.pull({ id: id })
+          owner.room.pull({
+            id: id
+          })
           await owner.save()
+        })
+        await socket.emit('room-deleted', {
+          id: room._id,
+          owner: {
+            id: owner._id,
+            name: owner.name,
+            email: owner.email
+          },
+          message: 'Room deleted',
+          users: room.users
         })
         return res.json({
           success: true
@@ -175,60 +205,9 @@ const remove = async (req, res, next) => {
   }
 }
 
-const addUser = async (req, res, next) => {
-  const error = validationResult(req)
-  if (!error.isEmpty()) {
-    const err = new Error('Validation failed')
-    err.message = error.array()
-    err.statusCode = 422
-    next(err)
-  } else {
-    const email = req.body.email
-    const roomId = req.params.id
-    try {
-      const user = await User.findOne({ email: email })
-      if (!user) {
-        const error = new Error('User not found')
-        error.statusCode = 401
-        next(error)
-      } else {
-        const room = await Room.findById(roomId).populate('users')
-        if (!room) {
-          const error = new Error('Room not found')
-          error.statusCode = 401
-          next(error)
-        } else if (room.owner._id.toString() !== req.user._id.toString()) {
-          const error = new Error('Not authorized')
-          error.statusCode = 401
-          next(error)
-        } else if (room.users.find(user => user.email === email)) {
-          const error = new Error('User already in room')
-          error.statusCode = 401
-          next(error)
-        } else {
-          room.users.push(new mongoose.Types.ObjectId(user._id))
-          await room.save()
-          user.room.push({
-            id: new mongoose.Types.ObjectId(room._id),
-            role: 'user'
-          })
-          await user.save()
-          return res.json({
-            success: true
-          })
-        }
-      }
-    } catch (err) {
-      err.statusCode = 500
-      next(err)
-    }
-  }
-}
-
 module.exports = {
   create,
   get,
   update,
-  remove,
-  addUser
+  remove
 }
