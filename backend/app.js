@@ -17,6 +17,13 @@ const io = socketIo(server, {
   }
 })
 
+const config = {
+  db: {
+    url: process.env.DB_URL
+  },
+  port: process.env.PORT
+};
+
 const userRoutes = require('./routes/user')
 const roomRoutes = require('./routes/room')
 const roomUserRoutes = require('./routes/room-user')
@@ -43,12 +50,12 @@ app.use(error)
 mongoose
   .connect(config.db.url)
   .then(result => {
-    console.log('Connected to database')
+    console.log('Connected to database');
     server.listen(config.port, () => {
-      console.log('Server is running on port 4000')
-    })
+      console.log(`Server is running on port ${config.port}`);
+    });
   })
-  .catch(err => console.log(err))
+  .catch(err => console.log(err));
 
 // WebSocket handling
 socketHandler(server)
