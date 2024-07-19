@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const socketIo = require('socket.io') // Import socket.io
 const socketHandler = require('./middleware/socketHandler')
 const app = express()
+const config = require('./config')
 
 const server = http.createServer(app)
 const io = socketIo(server, {
@@ -15,13 +16,6 @@ const io = socketIo(server, {
     credentials: true // Allow credentials (cookies, authorization headers)
   }
 })
-
-const config = {
-  db: {
-    url: process.env.DB_URL
-  },
-  port: process.env.PORT
-};
 
 const userRoutes = require('./routes/user')
 const roomRoutes = require('./routes/room')
@@ -47,11 +41,11 @@ app.use('/room', roomCommentRoutes)
 app.use(error)
 
 mongoose
-  .connect(config.db.url)
+  .connect(process.env.DB_URL)
   .then(result => {
     console.log('Connected to database');
-    server.listen(config.port, () => {
-      console.log(`Server is running on port ${config.port}`);
+    server.listen(process.env.PORT, () => {
+      console.log(`Server is running on port ${process.env.PORT}`);
     });
   })
   .catch(err => console.log(err));
