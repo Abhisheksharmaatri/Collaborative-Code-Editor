@@ -27,5 +27,8 @@ module.exports = {
       'https://86s0767f-3000.inc1.devtunnels.ms',
       'https://collaborative-code-editor-frontend.onrender.com'
     ]
+  },
+  socket:{
+    url:'https://collaborative-code-editor-bdy7.onrender.com'
   }
 }
