@@ -24,7 +24,8 @@ module.exports = {
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
-      'https://86s0767f-3000.inc1.devtunnels.ms'
+      'https://86s0767f-3000.inc1.devtunnels.ms',
+      'https://collaborative-code-editor-frontend.onrender.com/'
     ]
   }
 }
