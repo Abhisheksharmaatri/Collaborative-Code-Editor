@@ -1,117 +1,137 @@
-import React, { useEffect, useState } from 'react'
+import { react, useEffect, useState } from 'react';
+import { backend, room } from '../config';
+import CodeEditor from '../components/Room/CodeEditor';
+import RoomUser from '../components/Room/RoomUser'; 
+import Chat from '../components/Room/Chat';
 
-import '../styles/Room.css'
+import '../styles/Room.css';
 
-import DeleteRoom from '../components/Room/DeleteRoom'
-import EditRoom from '../components/Room/EditRoom'
-import ShowRoom from '../components/Room/ShowRoom'
-import AddUser from '../components/Room/AddUser'
-import Users from '../components/Room/Users'
-
-function Room (props) {
-  const id = window.location.pathname.split('/')[3]
-  console.log(id)
-
-  const [room, setRoom] = useState({})
-  const [messages, setMessages] = useState([])
-  const [message, setMessage] = useState('')
-  const [isEditing, setIsEditing] = useState(false)
-  const [isOwner, setIsOwner] = useState(false)
-  const [users, setUsers] = useState([])
-  const [owner, setOwner] = useState({})
-
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      fetch(`http://localhost:4000/room/get/${id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+function Room(props) {
+    const [code, setCode] = useState('Fetching code...');
+    const [chat, setChat] = useState([
+        {
+            sender: {
+                email: 'fetching',
+                name: 'fetching',
+                _id: 'fetching'
+            },
+            comment: 'fetching',
+            _id: 'fetching'
         }
-      })
-        .then(response => response.json())
-        .then(result => {
-          console.log(result)
-          if (result.success) {
-            setRoom({ ...result.data })
-            setUsers([...result.data.users])
-            setOwner({ ...result.data.owner })
-          } else {
-            window.location.href = '/login'
-          }
+    ]);
+    const [room, setRoom] = useState({
+        name: 'fetching',
+        description: 'fetching',
+        code: 'fetching',
+        owner: {
+            email: 'fetching',
+            name: 'fetching',
+            _id: 'fetching'
+        },
+        chat: [{
+            sender: {
+                email: 'fetching',
+                name: 'fetching',
+                _id: 'fetching'
+            },
+            comment: 'fetching',
+            _id: 'fetching'
+        }],
+        users: [{
+            email: 'fetching',
+            name: 'fetching',
+            _id: 'fetching'
+        }],
+        requests:[]
+    })
+    const [message, setMessage] = useState('Fetching room...')
+    const getRoom = () => {
+        const url = backend.url+'room/get/'+window.location.href.split('/')[4];
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'content-Type': 'application/json',
+                'authorization': localStorage.getItem('token')
+            }
         })
-        .catch(error => {
-          console.error('Error:', error)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    setRoom(data.data);
+                    setCode(data.data.code);
+                    setChat(data.data.chat);
+                    setMessage('');
+                } else {
+                    // window.location.href = '/login';
+                }
+            })
+            .catch(error => { 
+                setMessage(error.message);
+                console.log('error')
         })
     }
-  }, [id, isEditing])
 
-  //Now adding the websockets
-  useEffect(() => {
-    props.socket.on('message', message => {
-      setMessages([...messages, message])
-    })
-    props.socket.on('room-updated', room => {
-      if (room._id === id) {
-        setRoom(room)
-      }
-    })
-  }, [messages])
-
-  return (
-    <div className='room-container'>
-      <div className='code-container'>
-        {isEditing ? (
-          <EditRoom
-            room={room}
-            setRoom={setRoom}
-            setIsEditing={setIsEditing}
-            messages={messages}
-            setMessages={setMessages}
-            message={message}
-            setMessage={setMessage}
-          />
-        ) : (
-          <ShowRoom
-            room={room}
-            messages={messages}
-            setMessages={setMessages}
-            message={message}
-            setMessage={setMessage}
-            setIsEditing={setIsEditing}
-          />
-        )}
-      </div>
-      <div className='room-actions'>
-        <div className='room-buttons'>
-          <div className='room-delete'>
-            <DeleteRoom />
-          </div>
-          <div className='room-edit'>
-            <button onClick={() => setIsEditing(!isEditing)}>
-              {isEditing ? 'Cancel' : 'Edit'}
-            </button>
-          </div>
+    
+    const saveRoom = (code) => {
+        // Your save logic here
+        const reqesutBody = {
+            name: room.name,
+            description: room.description,
+            code: code,
+            chat:chat
+        }
+        const url=backend.url+'room/update/'+room._id;
+        fetch(url, {
+          method: 'PUT',
+          headers: {
+            'content-Type': 'application/json',
+            'authorization': localStorage.getItem('token')
+            },
+          body: JSON.stringify(reqesutBody)
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+              setRoom({...room, code:code});
+          } else {
+            // window.location.href = '/login';
+          }
+        })
+        .catch(error => { 
+          setMessage(error.message);
+          console.log('error')
+        })
+        console.log('Code saved:', code);
+    };
+    useEffect(() => { 
+        getRoom();
+        console.log(props.socket)
+        props.socket.on('room-updated', (updatedRoom) => {
+            console.log("ipdated room: ",updatedRoom)
+            setCode(updatedRoom.code);
+        });
+        props.socket.on('chat-updated', (updatedChat) => {
+            console.log("ipdated chat: ",updatedChat)
+            setChat(updatedChat);
+        });
+    },[props.socket]);
+    return (
+        <div className="Room">
+            <div className='room__info'><h1>Room: {room.name}</h1>({room.description})</div>
+            <CodeEditor code={code} roomId={room._id} save={saveRoom} setMessage={setMessage} socket={props.socket} />
+            <div className="room__container">
+                <Chat chat={chat} setChat={setChat}  roomId={room._id} setMessage={setMessage} getRoom={getRoom} socket={props.socket} />
+                <RoomUser users={room.users} roomId={room._id} setMessage={setMessage} owner={room.owner} />
+            </div>
         </div>
-        <Users users={users} owner={owner} />
-        <AddUser setMessage={setMessage} />
-        <div className='room-messages'>
-          <h3 className='room-messages-heading'>Messages</h3>
-          <p>{message}</p>
-          <ul className='room-messages-list'>
-            {messages.map(message => (
-              <li key={message._id} className='room-messages-list-item'>
-                <div className='room-messages-list-item-id'>
-                  <p>{message.message}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  )
+    )
 }
 
-export default Room
+// Room();
+
+export default Room;
+

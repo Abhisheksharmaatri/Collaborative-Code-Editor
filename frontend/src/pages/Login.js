@@ -1,98 +1,105 @@
-import React, { useState } from 'react'
-import '../styles/Login.css'
+import {
+    react,
+    useState
+} from 'react';
 
-function Login () {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [message, setMessage] = useState('')
+import {
+    user,
+    room,
+    backend
+} from '../config.js';
 
-  const handleLogin = e => {
-    e.preventDefault()
-    // Create the request body object
-    const requestBody = {
-      email: email,
-      password: password
-    }
+//add Css
+import '../styles/Login.css';
 
-    // Make the POST request to the server
-    fetch('http://localhost:4000/user/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestBody)
-    })
-      .then(response => {
-        return response.json()
-      })
-      .then(data => {
-        if (data.success) {
-          // Login successful, store the token in localStorage
-          localStorage.setItem('token', data.token)
-          setMessage(data.message)
+function Login(props) {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [message, setMessage] = useState('')
+    const [emailError, setEmailError] = useState('Email address should be properly formatted.')
+    const [passwordError, setPasswordError] = useState('Password must be at least '+user.password.length+' characters long.')
 
-          // Redirect to the home page
-          window.location.href = '/home'
+    const checkEmail = () => {
+        const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+        if (!emailValid) {
+            setEmailError('Invalid email address.')
+            setMessage('Email Incorrect')
         } else {
-          // Login failed, handle error message
-          setMessage(data.message)
+            setEmailError('')
         }
-      })
-      .catch(error => {
-        // Handle any errors that occurred during the fetch
-        console.error('Error:', error)
-      })
-  }
-
-  const passwordSubmit = e => {
-    if (e.key === 'Enter') {
-      handleLogin(e)
     }
-  }
 
-  return (
-    <div className='login-container'>
-      <h1 className='login-heading'>Login</h1>
-      <form className='login-form'>
-        <div className='form-group'>
-          <label htmlFor='email' className='form-label'>
-            Email:
-          </label>
-          <input
-            type='text'
-            id='email'
-            className='form-input'
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
+    const checkPassword = () => {
+        if (password.length < user.password.length) {
+            setPasswordError('Password must be at least 8 characters long.')
+            setMessage('Password Incorrect')
+        } else {
+            setPasswordError('')
+        }
+    }
+
+    const handleLogin = (e) => {
+        e.preventDefault()
+        checkEmail()
+        checkPassword()
+
+        if (emailError === '' && passwordError === '') {
+            const requestBody = {
+                email: email,
+                password: password
+            }
+            const url = backend.url + 'user/login'
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                })
+                .then(response => {
+                    return response.json()
+                })
+                .then(data => {
+                    if (data.success) {
+                        localStorage.setItem('token', data.token)
+                        setMessage(data.message)
+                        window.location.href = '/home'
+                    } else {
+                        setMessage(data.message)
+                    }
+                })
+                .catch(error => {
+                    setMessage('An error occurred, please try again.')
+                })
+        }
+    }
+
+    return (
+        <div className="container">
+            <h1>Login</h1>
+            <form onSubmit={handleLogin}>
+                <div className="form-group">
+                    <label htmlFor="email">Email address</label>
+                    <input type="text" id="email" className="form-control" value={email} onChange={e => setEmail(e.target.value)} onBlur={checkEmail} />
+                    <small className="text-danger">{emailError}</small>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <input type="text" id="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} onBlur={checkPassword} />
+                    <small className="text-danger">{passwordError}</small>
+                </div>
+                <div className="form-actions">
+                    <button type="submit" className="btn btn-primary">Login</button>
+                    <button className="btn btn-primary" onClick={()=>{window.location.href='/signup'}}>To Sign Up Page</button>
+                </div>
+                <div className='form-info'>
+                    <p className="text-danger">{message}</p>
+                    <h1>Project Developer: Abhishek Sharma</h1>
+                    <h2>Contact: abhiatriat2004@gmail.com</h2>
+                </div>
+            </form>
         </div>
-        <div className='form-group'>
-          <label htmlFor='password' className='form-label'>
-            Password:
-          </label>
-          <input
-            type='password'
-            id='password'
-            className='form-input'
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            onKeyDown={passwordSubmit}
-          />
-        </div>
-        <button className='login-button' onClick={handleLogin}>
-          Login
-        </button>
-        <p className='login-message'>{message}</p>
-      </form>
-      <button
-        className='signup-button'
-        onClick={() => (window.location.href = '/signup')}
-      >
-        Signup
-      </button>
-    </div>
-  )
+    )
 }
 
-export default Login
+export default Login;

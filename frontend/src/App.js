@@ -1,56 +1,51 @@
-import React, { useEffect, useState } from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  redirect
-} from 'react-router-dom'
-
-import './styles/App.css'
-
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import Home from './pages/Home'
-import Room from './pages/Room'
-import Error from './pages/Error'
-
-//Socket.io
+import { useEffect } from 'react';
 import { io } from 'socket.io-client'
-const socket = io('http://localhost:4000')
+import logo from './logo.svg';
+import './App.css';
 
-function App () {
-  const token = localStorage.getItem('token')
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Home from './pages/Home';
+import Room from './pages/Room';
 
-  socket.on('connect', () => {
-    console.log('Connected to server')
-  })
+import {backend} from './config';
 
-  socket.on('message', message => {
-    console.log(message)
-  })
+import setupSocketListeners from './middleware/WebSockets';
 
-  function path () {
-    const path = window.location.pathname
-    if (path === '/') {
-      return <Home />
-    }
-    if (path === '/login') {
-      return <Login />
-    }
-    if (path === '/signup') {
-      return <Signup />
-    }
-    if (path === '/home') {
-      return <Home />
-    }
-    //For a params based route
-    if (path.includes('/room/')) {
-      return <Room socket={socket} />
-    } else {
-      return <Error />
-    }
+//Set up the webscokets
+// import socket from './middleware/WebSockets';
+const socket = io(backend.url, {
+  transports: ['websocket'],
+  autoConnect: false,
+  reconnection: false,
+});
+
+function App() {
+  //server pages based on the current url
+  useEffect(() => {
+    setupSocketListeners(socket);
+  }, []);
+
+  const url = window.location.href.split('/');
+  if (url[3] === 'home') {
+    return <div>
+      <Home socket={socket} />
+    </div>
+  }else if(url[3] === 'signup'){
+    return <div>
+      <Signup socket={socket} />
+      </div>
   }
-  return <div className='App'>{path()}</div>
+  else if (url[3] === 'room') {
+    return <div>
+      <Room socket={socket} />
+    </div>
+  }
+  else {
+    return <div>
+       <Login socket={socket} />
+    </div>
+  }
 }
 
-export default App
+export default App;
