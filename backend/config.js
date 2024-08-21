@@ -31,5 +31,8 @@ module.exports = {
       'https://collaborative-code-editor-frontend.onrender.com'
 >>>>>>> ba246cf07a0242f05b010549eebd8724da2b06b6
     ]
+  },
+  socket:{
+    url:'https://collaborative-code-editor-bdy7.onrender.com'
   }
 }

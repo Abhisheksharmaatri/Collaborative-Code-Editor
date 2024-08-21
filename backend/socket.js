@@ -4,7 +4,8 @@ const socketio = require('socket.io')
 module.exports = function (server) {
   const io = socketio(server, {
     cors: {
-      origin: 'http://localhost:3000',
+      //origin: 'http://localhost:3000',
+      origin:'https://collaborative-code-editor-frontend.onrender.com',
       methods: ['GET', 'POST', 'DELETE']
     }
   })

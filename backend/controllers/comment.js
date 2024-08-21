@@ -7,7 +7,7 @@ const User = require('../models/user')
 
 const config = require('../config')
 
-const socket = require('socket.io-client')('http://localhost:4000') // Replace with your server's URL
+const socket = require('socket.io-client')(config.socket.url) // Replace with your server's URL
 
 
 const addComment = async (req, res, next) => {
