@@ -57,14 +57,7 @@ const addUser = async (req, res, next) => {
                     console.log('Updated room: ', updatedRoom)
                     await user.save()
                     await socket.emit('user-added', {
-                        room: {
-                            id: {
-                                _id: updatedRoom._id,
-                                name: updatedRoom.name,
-                                description: updatedRoom.description
-                            },
-                            role: 'user'
-                        },
+                        roomId: updatedRoom._id,
                         user: {
                             id: user._id,
                             name: user.name,
@@ -73,7 +66,12 @@ const addUser = async (req, res, next) => {
                         message: 'User added'
                     })
                     return res.json({
-                        success: true
+                        success: true,
+                        user: {
+                            id: user._id,
+                            name: user.name,
+                            email: user.email
+                        }
                     })
                 }
             }
@@ -125,14 +123,7 @@ const removeUser = async (req, res, next) => {
                 user.room.pull(roomId)
                 await user.save()
                 await socket.emit('user-removed', {
-                    room: {
-                        id: {
-                            _id: room._id,
-                            name: room.name,
-                            description: room.description
-                        },
-                        role: 'user'
-                    },
+                    roomId: room._id,
                     user: {
                         id: user._id,
                         name: user.name,

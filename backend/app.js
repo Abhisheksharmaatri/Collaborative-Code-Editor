@@ -21,6 +21,7 @@ const userRoutes = require('./routes/user')
 const roomRoutes = require('./routes/room')
 const roomUserRoutes = require('./routes/room-user')
 const roomCommentRoutes = require('./routes/comment')
+const codeRoutes = require('./routes/code')
 const error = require('./middleware/error')
 
 app.use(cors(config.cors))
@@ -37,14 +38,24 @@ app.use('/user', userRoutes)
 app.use('/room', roomRoutes)
 app.use('/room', roomUserRoutes)
 app.use('/room', roomCommentRoutes)
+app.use('/code', codeRoutes)
 
 app.use(error)
 
+// mongoose
+//   .connect(process.env.DB_URL)
+//   .then(result => {
+//     console.log('Connected to database');
+//     server.listen(process.env.PORT, () => {
+//       console.log(`Server is running on port ${process.env.PORT}`);
+//     });
+//   })
+//   .catch(err => console.log(err));
 mongoose
-  .connect(process.env.DB_URL)
+  .connect('mongodb+srv://alexwolfdog:alexwolfdog@code-collabortator.licgrid.mongodb.net/?retryWrites=true&w=majority&appName=Code-Collabortator')
   .then(result => {
     console.log('Connected to database');
-    server.listen(process.env.PORT, () => {
+    server.listen(4000, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
     });
   })

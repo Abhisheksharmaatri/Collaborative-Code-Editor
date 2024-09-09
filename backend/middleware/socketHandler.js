@@ -43,19 +43,19 @@ module.exports = (server) => {
 
         // Room User Messages
 
-        socket.on('user-added', async room => {
-            console.log('user-added: ', {
-                ...room
-            });
-            await io.emit('user-added', room);
-        });
+        // socket.on('user-added', async room => {
+        //     console.log('user-added: ', {
+        //         ...room
+        //     });
+        //     await io.emit('user-added', room);
+        // });
 
-        socket.on('user-removed', async room => {
-            console.log('user-removed: ', {
-                ...room
-            });
-            await io.emit('user-removed', room);
-        });
+        // socket.on('user-removed', async room => {
+        //     console.log('user-removed: ', {
+        //         ...room
+        //     });
+        //     await io.emit('user-removed', room);
+        // });
 
         // Room Comment Messages
 
@@ -79,7 +79,9 @@ module.exports = (server) => {
             });
             await io.emit('comment-deleted', comment);
         })
-
+        socket.on('code-updated', async code => {
+            await io.emit('code-updated', code);
+        }) 
         socket.on('disconnect', () => {
             console.log('A user disconnected from WebSocket');
         });

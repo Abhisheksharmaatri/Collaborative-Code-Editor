@@ -1,3 +1,7 @@
+//Fixes
+fix the code for the sockets for removing and adding user
+fix the code for the error messages for the code running
+
 //Todo 
 Updte the code of user to incorporate the use of rooms
 

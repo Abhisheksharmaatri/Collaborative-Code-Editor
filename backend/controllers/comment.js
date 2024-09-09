@@ -11,6 +11,7 @@ const socket = require('socket.io-client')(config.socket.url) // Replace with yo
 
 
 const addComment = async (req, res, next) => {
+    console.log("error")
     const error = validationResult(req)
     if (!error.isEmpty()) {
         const err = new Error('Validation failed')
@@ -24,6 +25,7 @@ const addComment = async (req, res, next) => {
             const room = await Room.findById(roomId)
             if (!room) {
                 const error = new Error('Room not found')
+                console.log("error room not found")
                 error.statusCode = 401
                 next(error)
             } else if (
@@ -31,6 +33,7 @@ const addComment = async (req, res, next) => {
                 room.users.indexOf(req.user._id) === -1
             ) {
                 const error = new Error('Not authorized')
+                console.log("error not authorized")
                 error.statusCode = 401
                 next(error)
             } else {
