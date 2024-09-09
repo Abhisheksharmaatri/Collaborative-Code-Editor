@@ -12,12 +12,15 @@ This is a collaborative code editor project that allows multiple users to edit c
 
 - **Socket.io Client** (v4.7.2): This library enables real-time communication between the frontend and backend for collaborative code editing.
 
+- **VM** (v1.0.0): A library for creating virtual machines in the browser, used for running code snippets for python in a secure environment.
+
 - **Testing Library**:
     - `@testing-library/jest-dom` (v5.17.0)
     - `@testing-library/react` (v13.4.0)
     - `@testing-library/user-event` (v13.5.0): These libraries are used for testing React components and user interactions.
 
 - **Web Vitals** (v2.1.4): Helps monitor and improve the performance of the application.
+
 
 ### Backend
 

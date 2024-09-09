@@ -32,7 +32,7 @@ module.exports = {
   },
   socket:{
     // url:'https://collaborative-code-editor-bdy7.onrender.com'
-    url='https://collaborative-code-editor-frontend.onrender.com',
+    url:'https://collaborative-code-editor-frontend.onrender.com',
     url: 'http://localhost:4000'
   }
 }
