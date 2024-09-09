@@ -1,4 +1,4 @@
-c// A Place to output the output of code recived from the backend
+// A Place to output the output of code recived from the backend
 
 import React, { useEffect } from 'react';
 
