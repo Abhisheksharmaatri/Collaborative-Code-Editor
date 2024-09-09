@@ -13,6 +13,7 @@ import '../styles/Login.css';
 function Login(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [message, setMessage] = useState('')
     const [emailError, setEmailError] = useState('Email address should be properly formatted.')
     const [passwordError, setPasswordError] = useState('Password must be at least '+user.password.length+' characters long.')
 
