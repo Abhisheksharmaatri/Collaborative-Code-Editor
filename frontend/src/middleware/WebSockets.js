@@ -59,10 +59,16 @@ const setupSocketListeners = (socket) => {
             ...comment
         });
     })
+    socket.on('code-updated', async code => {
+        console.log('code-updated: ', {
+            ...code
+        });
+    })
 
     socket.on('disconnect', () => {
         console.log('A user disconnected from WebSocket');
     });
+
 };
 
 export default setupSocketListeners;

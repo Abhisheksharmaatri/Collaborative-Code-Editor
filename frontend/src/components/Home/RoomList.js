@@ -7,17 +7,6 @@ function RoomList(props) {
 
     return (
         <div className="RoomList">
-            {/* <ul>
-                {props.rooms.map((room) => {
-                    return (
-                        <div key={room._id}>
-                            <h4><a href={`/room/${room.id._id}`}>{room.id.name}</a></h4>
-                            <p>{room.id.description}</p>
-                        <div>
-                    )
-                }
-                )}
-            </ul> */}
             {props.rooms.length === 0 ? <p>No Rooms</p> :
                 <div className="room-list">
                     {console.log(props.rooms)}

@@ -41,7 +41,7 @@ const CreateRoom = () => {
             };
 
             try {
-                const response = await fetch(backend.url + 'room/create', {
+                const response = await fetch(backend.url + '/room/create', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const CreateRoom = () => {
     };
 
     return (
-        <div className='container'>
+        <div className='create__room__container'>
             <h1>Create Room</h1>
             <div>
                 <div className='form-group'>

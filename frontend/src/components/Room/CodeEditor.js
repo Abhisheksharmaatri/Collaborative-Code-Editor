@@ -1,65 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import AceEditor from 'react-ace';
-import 'ace-builds/src-noconflict/mode-javascript';
-import 'ace-builds/src-noconflict/mode-python';
-import 'ace-builds/src-noconflict/mode-java';
-import 'ace-builds/src-noconflict/theme-monokai';
+import React, { useState, useEffect, useRef } from 'react';
 import Actions from './Actions';
 
 const CodeEditor = (props) => {
   const [code, setCode] = useState(props.code);
-  const [language, setLanguage] = useState('javascript');
+  const textareaRef = useRef(null); // Create a ref for the textarea
 
   useEffect(() => {
     setCode(props.code);
   }, [props.code]);
 
-  const handleCodeChange = (newCode) => {
-    setCode(newCode);
-    // Emit code update to socket
-    props.socket.emit('codeUpdate', { code: newCode });
+  const handleCodeChange = (event) => {
+    console.log('Code change detected:', event.target.value);
+    setCode(event.target.value);
+    props.socket.emit('code-updated', { code: event.target.value, id: props.roomId });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Tab') {
+      e.preventDefault(); // Prevent the default tab behavior
+      const textarea = textareaRef.current;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+
+      // Insert four spaces (or a tab character) at the cursor position
+      textarea.value = textarea.value.substring(0, start) + '    ' + textarea.value.substring(end);
+
+      // Move the cursor after the inserted spaces
+      textarea.selectionStart = textarea.selectionEnd = start + 4;
+
+      // Update the code state with the new value
+      setCode(textarea.value);
+    }
   };
 
   useEffect(() => {
-    props.socket.on('codeUpdated', (newCode) => {
-      setCode(newCode);
-    });
-    props.socket.on('codeUpdate', (newCode) => {
-      console.log('Code updated:', newCode);
-      setCode(newCode);
+    const handleCodeUpdate = (data) => {
+      console.log('Received code update:', data.code);
+      setCode(data.code);
+    };
+
+    props.socket.on('code-updated', (data) => {
+      console.log('Code update detected:', data.id);
+      console.log('Room ID:', props.roomId);
+      if (data.id === props.roomId) {
+        handleCodeUpdate(data);
+      }
     });
 
-    return () => {}; // No need to clean up socket here
-  }, []);
+    return () => {
+      props.socket.off('code-updated', handleCodeUpdate);
+    };
+  }, [props.socket, props.roomId]);
 
   return (
     <div className='code__editor'>
-      <AceEditor
-        mode={language}
-        theme="monokai"
-        onChange={handleCodeChange} // Directly emit socket event on change
-        name="UNIQUE_ID_OF_DIV"
-        editorProps={{ $blockScrolling: true }}
+      <textarea
+        ref={textareaRef} // Attach the ref to the textarea
+        className="code__input"
         value={code}
-        style={{
-          width: '100%',
-          margin: '10px',
-          height: '95%',
-          borderRadius: '8px',
-          fontSize: '16px',
-        }}
+        onChange={handleCodeChange}
+        // disable spellCheck
+        spellCheck={false}
+        // disable autoCapitalize
+        autoCapitalize='off'
+        // disable autoCorrect
+        autoCorrect='off'
+        // disable autoComplete
+        autoComplete='off'
+        // disable autoSave
+        autoSave='off'
+        // disable autoFill
+        autoFill='off'
+        // disable the tab switch
+        onKeyDown={handleKeyDown}
       />
-      <div className="form-actions">
-        <select
-          value={language}
-          onChange={(e) => { setLanguage(e.target.value) }}
-        >
-          <option value="javascript">JavaScript</option>
-          <option value="python">Python</option>
-          <option value="java">Java</option>
-        </select>
-        <button onClick={() => props.save(code)} className='btn-primary'>Save</button>
-        <Actions roomId={props.roomId} setMessage={props.setMessage} />
+      <div className='editor__controls'>
+        <button onClick={() => props.save(code)} className='btn btn-primary'>Save</button>
+        <button onClick={() => props.runCode(code)} className='btn btn-primary'>RUN</button>
+        <Actions roomId={props.roomId} setMessage={props.setMessage} handleCodeChange={handleCodeChange} setLanguage={props.setLanguage} />
       </div>
     </div>
   );

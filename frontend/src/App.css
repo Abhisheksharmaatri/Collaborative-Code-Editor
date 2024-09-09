@@ -1,39 +1,138 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: flex-start;
+  width: 100%;
+  padding-bottom: 100px;
+  height: 600px;
+}
+
+
+/* Base styles for buttons */
+.btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: normal;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 40px;
+  /* Set a fixed height */
+  line-height: 20px;
+  /* Adjust line-height for vertical centering */
+  display: inline-flex;
+  align-items: center;
+  margin: 2px;
+}
+
+/* Softer blue for primary buttons */
+.btn-primary {
+  background-color: #5a9bd8;
+  /* Softer blue */
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-primary:hover {
+  background-color: #3e81b3;
+  /* Darker shade on hover */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+/* Softer red for danger buttons */
+.btn-danger {
+  background-color: #e57373;
+  /* Softer red */
+  color: white;
+}
 
-  to {
-    transform: rotate(360deg);
-  }
+.btn-danger:hover {
+  background-color: #d32f2f;
+  /* Darker shade on hover */
+}
+
+/* Spacing between buttons */
+.btn+.btn {
+  margin-left: 10px;
+}
+
+/* Base styles for select elements */
+.select {
+  padding: 0 20px;
+  /* Remove top and bottom padding */
+  font-size: 14px;
+  font-weight: normal;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  height: 40px;
+  /* Match height with buttons */
+  line-height: 20px;
+  /* Adjust line-height for vertical centering */
+  box-sizing: border-box;
+  /* Ensure padding and border are included in the height */
+  margin: 2px;
+}
+
+/* Softer blue for primary select */
+.select-primary {
+  border-color: #5a9bd8;
+  background-color: #f0f8ff;
+  /* Light blue background */
+}
+
+.select-primary:hover,
+.select-primary:focus {
+  border-color: #3e81b3;
+  background-color: #e6f0ff;
+  /* Slightly darker blue background on focus */
+}
+
+/* Softer red for danger select */
+.select-danger {
+  border-color: #e57373;
+  background-color: #ffe6e6;
+  /* Light red background */
+}
+
+.select-danger:hover,
+.select-danger:focus {
+  border-color: #d32f2f;
+  background-color: #fbe9e7;
+  /* Slightly darker red background on focus */
+}
+
+/* For Nav Bar */
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 5px 20px;
+  background-color: #333;
+  color: white;
+  width: 100%;
+}
+
+/* For input */
+input[type="text"] {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+}
+
+input[type="text"]::placeholder {
+  color: #888;
 }

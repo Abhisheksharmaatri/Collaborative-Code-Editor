@@ -1,157 +1,178 @@
-/* styles.css */
-
-/* General Styles */
-body {
-    font-family: 'Helvetica Neue', sans-serif;
-    /* Use the macOS system font */
-    background-color: #F7F7F7;
-    /* Light gray background color */
-    color: #333;
-    /* Text color */
-}
-
-/* Room Component Styles */
-.Room {
-    padding: 20px;
-    background-color: #CCCCCC;
-    /* White background for the room */
-    border: 1px solid #CCCCCC;
-    /* Light gray border */
-    border-radius: 8px;
-    margin: 20px;
+.room__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f8f8;
+    margin-top: 10px;
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+    border: 1px solid black;
 }
 
 .room__info {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    margin-top: 0px;
+    padding: 2px;
+    max-height: 100px;
 }
 
-/* Room Code Editor Styles */
-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
-    border: 1px solid #ccc;
-    padding: 8px;
-    border-radius: 5px;
+.room__info h1 {
+    font-size: 24px;
+    margin: 0px;
+    /* Change the size of the h1 element */
+}
+
+.room__info p {
     font-size: 16px;
-    background-color: #f4f4f4;
-    color: #333;
-    width: 100px;
-    outline: none;
-    cursor: pointer;
+    margin: 0px
+        /* Change the size of the p elements */
+}
+
+.code__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     margin: 10px;
-}
-
-/* Style for the arrow icon */
-select::after {
-    content: '\25BC';
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    pointer-events: none;
-}
-
-/* Hover effect */
-select:hover {
-    border-color: #aaa;
-}
-
-/* Focus effect */
-select:focus {
-    border-color: #4d90fe;
-    box-shadow: 0 0 5px rgba(77, 144, 254, 0.5);
-}
-
-option {
-    text-align: center;
+    padding: 2px;
+    height: 600px;
+    width: 90%;
 }
 
 .code__editor {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: #FFFFFF;
-    border: 1px solid #CCCCCC;
-    border-radius: 8px;
-    margin: 10px;
-    width: 100%;
-    height: 600px;
-}
-
-
-.form-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.form-actions button {
-    margin: 10px;
-}
-
-/* Actions Component Styles */
-.btn-danger {
-    background-color: #FF5F5F;
-    /* Red color for delete button */
-    color: #FFFFFF;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.room__container {
-    display: flex;
-    background-color: #CCCCCC;
-    border: 1px solid #CCCCCC;
-    border-radius: 8px;
-}
-
-/* Room User Component Styles */
-.room__user {
-    background-color: #FFFFFF;
-    border: 1px solid #CCCCCC;
-    border-radius: 8px;
-    margin: 20px;
-    padding: 10px;
-}
-
-.user-list {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.user {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid #CCCCCC;
-    border-radius: 4px;
-    padding: 10px;
     margin: 10px;
-    width: 150px;
-    height: 80px;
+    padding: 2px;
+    width: 85%;
+    height: 95%;
 }
 
-.user b {
-    margin-bottom: 10px;
+.code__editor textarea {
+    width: 100%;
+    height: 90%;
+    margin-top: 0px;
+    /* Change the size of the textarea */
 }
 
-.user-input {
+.editor__controls {
     display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
     margin: 10px;
+    padding: 2px;
+    width: 85%;
 }
 
-.user-input input {
-    margin: 10px;
-    margin-right: 10px;
-    padding: 8px;
+
+.io__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 0%;
+    height: 100%;
+    width: 25%;
 }
+
+.input__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin-top: 0px;
+    padding: 10px;
+    height: 45%;
+    width: 100%;
+}
+
+.input__container textarea {
+    width: 95%;
+    height: 95%;
+    margin-top: 0px;
+    /* Change the size of the textarea */
+}
+
+.output__container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    /* Ensure children take full width */
+    margin: 0;
+    /* Removes unnecessary margin */
+    padding: 10px;
+    /* Increased padding for better spacing */
+    /* Softer border color */
+    height: 100%;
+    /* Full height of its container */
+    width: 100%;
+    /* Full width of its container */
+    box-sizing: border-box;
+    /* Include padding and border in the element's total width and height */
+    overflow: auto;
+    /* Adds scrollbars if content overflows */
+    background-color: #f9f9f9;
+    /* Optional: Light background color for better readability */
+}
+
+.output__container h4 {
+    margin: 0 0 10px 0;
+    /* Adds space below the heading */
+    font-size: 16px;
+    /* Adjust heading size */
+    font-weight: bold;
+    /* Makes heading bold */
+}
+
+.output__container pre {
+    margin: 0;
+    /* Removes default margin from pre */
+    white-space: pre-wrap;
+    /* Ensures long lines wrap correctly */
+    overflow: auto;
+    /* Adds scrollbars for overflow */
+    background-color: #fff;
+    /* Optional: Background color for pre element */
+    border: 1px solid #ddd;
+    /* Optional: Border around pre element */
+    padding: 10px;
+    /* Optional: Padding for pre element */
+    border-radius: 4px;
+    /* Optional: Rounded corners */
+    height: 60%;
+}
+
+
+.output__container pre {
+    margin: 0;
+    /* Removes default margin from pre */
+    white-space: pre-wrap;
+    /* Ensures long lines wrap correctly */
+    overflow: auto;
+    /* Adds scrollbars for the pre element */
+}
+
+.network__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 2px;
+    border: 1px solid black;
+    width: 95%;
+}
+
+.chat__container {
+    padding-left: 2%;
+}
+
+.room__user {}

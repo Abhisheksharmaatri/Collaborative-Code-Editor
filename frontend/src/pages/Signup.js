@@ -49,6 +49,7 @@ function Signup(props) {
     }
 
     const handleSignup = e => {
+        e.preventDefault()
         checkName()
         checkEmail()
         checkPassword()
@@ -59,7 +60,7 @@ function Signup(props) {
                 email: email,
                 password: password
             }
-            const url = backend.url + 'user/signup'
+            const url = backend.url + '/user/signup'
             fetch(url, {
                     method: 'POST',
                     headers: {
@@ -82,39 +83,36 @@ function Signup(props) {
             .catch(error => {
                 setMessage(error.message)
             })
+        } else {
+            setMessage('Please correct the errors in the form.')
         }
     }
 
     return (
-        <div className="container">
+        <div className="login__container">
             <h1>Signup</h1>
-            <form onSubmit={handleSignup}>
-                <div className="form-group">
+            <form onSubmit={handleSignup} className='login__form'>
+                <div className="form__group">
                     <label htmlFor="name">Name</label>
                     <input type="text" id="name" className="form-control" value={name} onChange={e => setName(e.target.value)} onBlur={checkName} />
                     <small className="text-danger">{nameError}</small>
                 </div>
-                <div className="form-group">
+                <div className="form__group">
                     <label htmlFor="email">Email address</label>
                     <input type="text" id="email" className="form-control" value={email} onChange={e => setEmail(e.target.value)} onBlur={checkEmail} />
                     <small className="text-danger">{emailError}</small>
                 </div>
-                <div className="form-group">
+                <div className="form__group">
                     <label htmlFor="password">Password</label>
                     <input type="text" id="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} onBlur={checkPassword} />
                     <small className="text-danger">{passwordError}</small>
                 </div>
-                <div className="form-actions">
+                <div className="form__actions">
                     <button type="submit" className="btn btn-primary">Signup</button>
                     <button className="btn btn-primary" onClick={()=>{window.location.href='/login'}}>To Log In Page</button>
-                </div>
-                <div className='form-info'>
-                    <p className="text-danger">{message}</p>
-                    <h1>Project Developer: Abhishek Sharma</h1>
-                    <h2>Contact: abhiatriat2004@gmail.com</h2>
-                </div>
+                </div>                
+                <p className="text-danger">{message}</p>
             </form>
-            <p className="text-danger">{message}</p>
         </div>
     )
 }

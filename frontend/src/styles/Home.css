@@ -1,171 +1,83 @@
-/* General styles */
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    margin: 0;
-    padding: 0;
+.home {
     display: flex;
+    justify-content: space-around;
+    max-height: 600px;
+}
+
+.home__header {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    width: 100%;
+    /* border: 1px solid black; */
+    width: 60%;
 }
 
-.Home {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 1000px;
-    margin-top: 2rem;
-}
-
-
-
-.info-header {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #f8f9fa;
-    color: #333;
-}
-
-.user-info {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.user-info h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #007aff;
-    margin-bottom: 0.5rem;
-}
-
-.user-info h3 {
-    font-size: 1rem;
-    font-weight: 400;
-    color: #555;
-}
-
-h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #333;
-}
-
-/* RoomList and CreateRoom components */
-.RoomList {
-    background-color: #f0f0f5;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1.5rem;
-}
-
-.CreateRoom {
-    background-color: #f0f0f5;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1.5rem;
-    background-color: #fff;
-    border: 2px dashed #ccc;
-    padding: 1.5rem;
-    text-align: center;
-    transition: border-color 0.3s, background-color 0.3s;
-}
-
-.CreateRoom:hover {
-    border-color: #007aff;
-    background-color: #f9f9ff;
-}
-
-button {
-    background-color: #007aff;
-    color: #fff;
-    padding: 0.75rem 1.25rem;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-button:hover {
-    background-color: #005bb5;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Room list container */
-.room-list {
+.create__room__container {
+    /* border: 1px solid black; */
     display: flex;
-    overflow-x: auto;
-    padding: 1rem;
-    gap: 1rem;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     width: 100%;
-    max-width: 1000px;
-    scroll-snap-type: x mandatory;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.form-group input {
+    width: 90%;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.developer__contact {
+    /* border: 1px solid black; */
+    display: flex;
+}
+
+.room__list__container {
+    width: 20%;
+}
+
+.RoomList {
+    width: 100%;
+    /* Adjust width as needed */
+    /* Optional:
+    Set padding or margin as needed */
+}
+
+.room-list {
+    max-height: 600px;
+    /* Adjust height to fit your design */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    border: 1px solid #ccc;
+    /* Optional: Add border to see the scrollable area */
+    padding: 10px;
+    /* Optional: Add padding for better visual spacing */
+    border-radius: 4px;
+    /* Optional: Add rounded corners */
+    background-color: #f9f9f9;
+    /* Optional: Set a background color */
 }
 
 .room-item {
+    margin-bottom: 10px;
+    /* Spacing between items */
+    padding: 10px;
+    /* Padding inside each item */
+    border: 1px solid #ddd;
+    /* Border around each item */
+    border-radius: 4px;
+    /* Rounded corners for each item */
     background-color: #fff;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    flex: 0 0 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-width: 250px;
-    max-width: 300px;
-    scroll-snap-align: start;
-}
-
-.room-item b {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #007aff;
-    margin-bottom: 0.5rem;
-}
-
-.room-item p {
-    font-size: 1rem;
-    color: #555;
-    margin-bottom: 1rem;
-}
-
-.message {
-    color: #007aff;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-    .Home {
-        padding: 1.5rem;
-        margin-top: 1rem;
-    }
-
-    h1 {
-        font-size: 1.25rem;
-    }
-
-    .user-info h1 {
-        font-size: 1.5rem;
-    }
-
-    .user-info h3 {
-        font-size: 0.875rem;
-    }
-
-    .RoomList,
-    .CreateRoom {
-        padding: 0.75rem;
-    }
+    /* Background color for each item */
 }

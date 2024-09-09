@@ -48,7 +48,7 @@ function Login(props) {
                 email: email,
                 password: password
             }
-            const url = backend.url + 'user/login'
+            const url = backend.url + '/user/login'
             fetch(url, {
                     method: 'POST',
                     headers: {
@@ -75,27 +75,27 @@ function Login(props) {
     }
 
     return (
-        <div className="container">
+        <div className="login__container">
+            {/* Akshat update */}
+            {/* <div className='akshat'>
+                <h1>Excel Sheet</h1>
+                <iframe src="https://abes365-my.sharepoint.com/:x:/g/personal/abhishek_21b0311082_abes_ac_in/Ef-FKZbgAjZGjFmn3V_uftAB3UKSc4hwjZOVZERreboxXg?e=o8xqZ5&nav=MTVfezY3QjBDNTE5LTgzNjAtNDVCRi1BQTk5LTExRUEzMkYyOTE5Nn0&action=embedview&wdbipreview=true" width="600" height="780"></iframe>
+            </div> */}
             <h1>Login</h1>
-            <form onSubmit={handleLogin}>
-                <div className="form-group">
+            <form onSubmit={handleLogin} className='login__form'>
+                <div className="form__group">
                     <label htmlFor="email">Email address</label>
                     <input type="text" id="email" className="form-control" value={email} onChange={e => setEmail(e.target.value)} onBlur={checkEmail} />
                     <small className="text-danger">{emailError}</small>
                 </div>
-                <div className="form-group">
+                <div className="form__group">
                     <label htmlFor="password">Password</label>
                     <input type="text" id="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} onBlur={checkPassword} />
                     <small className="text-danger">{passwordError}</small>
                 </div>
-                <div className="form-actions">
+                <div className="form__actions">
                     <button type="submit" className="btn btn-primary">Login</button>
                     <button className="btn btn-primary" onClick={()=>{window.location.href='/signup'}}>To Sign Up Page</button>
-                </div>
-                <div className='form-info'>
-                    <p className="text-danger">{message}</p>
-                    <h1>Project Developer: Abhishek Sharma</h1>
-                    <h2>Contact: abhiatriat2004@gmail.com</h2>
                 </div>
             </form>
         </div>

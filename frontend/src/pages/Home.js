@@ -3,6 +3,7 @@ import { backend } from '../config';
 import RoomList from '../components/Home/RoomList';
 import CreateRoom from '../components/Home/CreateRoom';
 import Header from '../components/Home/Header';
+import DeveloperContact from '../components/divs/DeveloperContact';
 
 import '../styles/Home.css'
 
@@ -19,7 +20,7 @@ function Home(props) {
     const [message, setMessage] = useState('Fetching user...')
 
     const getUser = () => {
-        const url = backend.url + 'user/get-user';
+        const url = backend.url + '/user/get-user';
         const token = localStorage.getItem('token');
         if (!token) {
             window.location.href = '/login';
@@ -89,18 +90,24 @@ function Home(props) {
     
 
     return (
-        <div className="Home">
-            <div className='user-info'>
-                <h1>{user.name}</h1>
-                <h3>{user.email}</h3>
+        <div className="home">
+            <div className='home__header'>
+                <div className='actions'>
+                    <div className='user-info'>
+                    <h1>{user.name}</h1>
+                    <h3>{user.email}</h3>
+                </div>
+                    <DeveloperContact />
+                </div>
+                <CreateRoom />
             </div>
-            <h1>Rooms: </h1>
-            <RoomList rooms={user.room} />
-            <CreateRoom />
-            <div className='message'>
-                {message}
+            <div className='room__list__container'>
+                <h1>Rooms: </h1>
+                <RoomList rooms={user.room} />
+                <div className='message'>
+                    {message}
+                </div>
             </div>
-            <Header />
         </div>
 
     )
