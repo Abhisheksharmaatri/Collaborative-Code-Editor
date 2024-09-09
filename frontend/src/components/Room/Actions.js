@@ -1,4 +1,3 @@
-import { react } from 'react';
 import {backend} from '../../config'
 const Actions = (props) => {
     const deleteRoom = () => { 

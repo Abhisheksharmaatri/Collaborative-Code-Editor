@@ -1,5 +1,5 @@
-import { react, useEffect, useState } from 'react';
-import { backend, room } from '../config';
+import { useEffect, useState } from 'react';
+import { backend} from '../config';
 
 import CodeEditor from '../components/Room/CodeEditor';
 import RoomUser from '../components/Room/RoomUser'; 

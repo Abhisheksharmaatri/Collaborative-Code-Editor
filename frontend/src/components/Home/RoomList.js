@@ -1,5 +1,3 @@
-import { react, useState } from 'react';
-
 function RoomList(props) {
     //i want to create a room list component which shocasw the list of all the rooms which ahs the following strutur:
     //     room: Array(1)

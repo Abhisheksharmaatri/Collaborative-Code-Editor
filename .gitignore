@@ -17,6 +17,8 @@ package-lock.json
 \frontend\node_modules
 \frontend\package-lock.json
 \frontend\Readme.md
+\frontend\.env
+\frontend\test
 
 \backend\node_modules
 \backend\package-lock.json
@@ -24,3 +26,4 @@ package-lock.json
 \backend\senstive.js
 \backend\config.js
 \backend\.vscode
+\backend\.env

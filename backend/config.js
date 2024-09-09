@@ -25,7 +25,8 @@ module.exports = {
       'http://localhost:3000',
       'http://localhost:3001',
       'https://86s0767f-3000.inc1.devtunnels.ms',
-      'https://collaborative-code-editor-frontend.onrender.com'
+      'https://collaborative-code-editor-frontend.onrender.com',
+      'https://collaborative-code-editor-frontend-code.onrender.com'
     ]
   },
   socket:{

@@ -1,11 +1,9 @@
 import {
-    react,
     useState
 } from 'react';
 
 import {
     user,
-    room,
     backend
 } from '../config.js';
 

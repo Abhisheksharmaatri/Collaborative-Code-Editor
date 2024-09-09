@@ -1,5 +1,5 @@
-import { react, useState } from 'react';
-import { user, room, backend } from '../../config';
+import { useState } from 'react';
+import { room, backend } from '../../config';
 
 const CreateRoom = () => {
     const [name, setName] = useState('');

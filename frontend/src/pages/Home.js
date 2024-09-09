@@ -1,8 +1,7 @@
-import { react, useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { backend } from '../config';
 import RoomList from '../components/Home/RoomList';
 import CreateRoom from '../components/Home/CreateRoom';
-import Header from '../components/Home/Header';
 import DeveloperContact from '../components/divs/DeveloperContact';
 
 import '../styles/Home.css'

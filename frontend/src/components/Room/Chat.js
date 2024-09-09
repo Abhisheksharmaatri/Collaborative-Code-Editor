@@ -8,7 +8,7 @@ const Chat = (props) => {
 
     useEffect(() => {
         const handleCommentAdded = (newComment) => {
-            if(newComment.id==props.roomId){console.log("new chat: ", newComment);
+            if(newComment.id===props.roomId){console.log("new chat: ", newComment);
             props.setChat([...props.chat, newComment]);
             requestAnimationFrame(() => {
                 scrollToBottom();

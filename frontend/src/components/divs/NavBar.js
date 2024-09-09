@@ -1,5 +1,3 @@
-import { react } from 'react';
-
 function NavBar() {
     return (
         <div className='navbar'>

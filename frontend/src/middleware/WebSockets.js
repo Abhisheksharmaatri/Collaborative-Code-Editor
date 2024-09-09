@@ -1,5 +1,4 @@
 // socketListeners.js
-import { io } from 'socket.io-client';
 
 const setupSocketListeners = (socket) => {
     socket.on('message', msg => {
