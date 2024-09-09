@@ -42,20 +42,11 @@ app.use('/code', codeRoutes)
 
 app.use(error)
 
-// mongoose
-//   .connect(process.env.DB_URL)
-//   .then(result => {
-//     console.log('Connected to database');
-//     server.listen(process.env.PORT, () => {
-//       console.log(`Server is running on port ${process.env.PORT}`);
-//     });
-//   })
-//   .catch(err => console.log(err));
 mongoose
-  .connect('mongodb+srv://alexwolfdog:alexwolfdog@code-collabortator.licgrid.mongodb.net/?retryWrites=true&w=majority&appName=Code-Collabortator')
+  .connect(process.env.DB_URL)
   .then(result => {
     console.log('Connected to database');
-    server.listen(4000, () => {
+    server.listen(process.env.PORT, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
     });
   })
