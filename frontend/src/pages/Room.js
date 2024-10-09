@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { backend} from '../config';
+import { backend, user} from '../config';
 
 import CodeEditor from '../components/Room/CodeEditor';
 import RoomUser from '../components/Room/RoomUser'; 
@@ -15,6 +15,7 @@ function Room(props) {
     const [language, setLanguage] = useState('python');
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('Please run the code to see the output');
+    const [message, setMessage] = useState('Fetching room...');
     const [chat, setChat] = useState([
         {
             sender: {
@@ -50,8 +51,7 @@ function Room(props) {
             _id: 'fetching'
         }],
         requests:[]
-    })
-    const [message, setMessage] = useState('Fetching room...')
+    });
     const getRoom = () => {
         const url = backend.url+'/room/get/'+window.location.href.split('/')[4];
         fetch(url, {
@@ -65,6 +65,7 @@ function Room(props) {
                 return response.json();
             })
             .then(data => {
+                console.log(data)
                 if (data.success) {
                     setRoom(data.data);
                     setCode(data.data.code);
@@ -72,6 +73,7 @@ function Room(props) {
                     setMessage('Room fetched successfully');
                 } else {
                     // window.location.href = '/login';
+                    setMessage(data.message)
                 }
             })
             .catch(error => { 
@@ -103,9 +105,11 @@ function Room(props) {
         })
         .then(data => {
           if (data.success) {
-              setRoom({...room, code:code});
+              setRoom({ ...room, code: code });
+              setMessage(data.message);
           } else {
-            // window.location.href = '/login';
+              // window.location.href = '/login';
+              setMessage(data.message)
           }
         })
         .catch(error => { 
@@ -172,6 +176,18 @@ function Room(props) {
             console.log("removed user: ",removedUser)
             setRoom({...room, users:room.users.filter(user => user.email !== removedUser.email)});
         });
+        props.socket.on('room-deleted', (room) => {
+            if (room.id === roomId) {
+                setMessage('Room deleted');
+                window.location.href = '/home';
+            }
+        })
+        props.socket.on('user-removed', (room) => {
+            if (room.roomId === roomId && room.user.id===user.id) {
+                setMessage('Room deleted');
+                window.location.href = '/home';
+            }
+        })
     },[props.socket]);
     return (
         <div className="room__container">

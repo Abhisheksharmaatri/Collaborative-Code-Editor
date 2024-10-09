@@ -11,7 +11,8 @@ function Home(props) {
         name: 'fetching',
         email: 'fetching',
         room: [{
-            _id:1,id:{
+            _id: 1,
+            id: {
             name: 'fetching',
             description: 'fetching'}
         }]
@@ -79,24 +80,42 @@ function Home(props) {
             }));
             setMessage('Room Deleted');
         })
+
+        socket.on('user-added', (newUser) => { 
+            console.log("=====>",newUser, user._id);
+            if (newUser.user.id === user._id) { 
+                setUser((prevUser) => ({
+                    ...prevUser,
+                    room: [...prevUser.room, {
+                        _id: newUser.roomId,
+                        id: {
+                            name: newUser.room.name,
+                            description: newUser.room.description
+                        }
+                    }]
+                }));
+                setMessage('User Added');
+            }
+        });
+
+        socket.on('user-removed', (delUser) => { 
+            console.log("=====>",delUser, user._id);
+        })
     
         // Unsubscribe from the event when the component is unmounted
         return () => {
-        //   socket.off('room-created');
-        //   socket.off('room-deleted');
+          socket.off('room-created');
+          socket.off('room-deleted');
         };
       }, [props,message]);
     
 
     return (
         <div className="home">
-            <div className='home__header'>
-                <div className='actions'>
-                    <div className='user-info'>
-                    <h1>{user.name}</h1>
+            <div className='home__data'>
+                <div className='user-info'>
+                <h1>Hi, Welcome {user.name}</h1>
                     <h3>{user.email}</h3>
-                </div>
-                    <DeveloperContact />
                 </div>
                 <CreateRoom />
             </div>
@@ -108,7 +127,6 @@ function Home(props) {
                 </div>
             </div>
         </div>
-
     )
 }
 export default Home;

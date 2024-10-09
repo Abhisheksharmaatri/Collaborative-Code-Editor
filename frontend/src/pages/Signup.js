@@ -109,7 +109,9 @@ function Signup(props) {
                     <button type="submit" className="btn btn-primary">Signup</button>
                     <button className="btn btn-primary" onClick={()=>{window.location.href='/login'}}>To Log In Page</button>
                 </div>                
-                <p className="text-danger">{message}</p>
+                <div className='form__message'>
+                    <h3>{message}</h3>
+                </div>
             </form>
         </div>
     )

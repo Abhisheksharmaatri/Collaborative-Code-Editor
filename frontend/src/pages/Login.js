@@ -63,6 +63,7 @@ function Login(props) {
                         setMessage(data.message)
                         window.location.href = '/home'
                     } else {
+                        console.log(data)
                         setMessage(data.message)
                     }
                 })
@@ -90,6 +91,9 @@ function Login(props) {
                     <label htmlFor="password">Password</label>
                     <input type="text" id="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} onBlur={checkPassword} />
                     <small className="text-danger">{passwordError}</small>
+                </div>
+                <div className='form__message'>
+                    <h3>{message}</h3>
                 </div>
                 <div className="form__actions">
                     <button type="submit" className="btn btn-primary">Login</button>

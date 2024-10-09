@@ -19,6 +19,7 @@ const Actions = (props) => {
                 window.location.href = '/home';
             }else{
                 // window.location.href = '/login';
+                props.setMessage(data.message)
             }
         })
         .catch(error=>{
