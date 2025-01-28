@@ -58,13 +58,23 @@ const addUser = async (req, res, next) => {
                     await user.save()
                     await socket.emit('user-added', {
                         roomId: updatedRoom._id,
+                        room: {
+                            name: updatedRoom.name,
+                            description: updatedRoom.description
+                        },
                         user: {
                             id: user._id,
                             name: user.name,
                             email: user.email
                         },
+                        owner: {
+                            id: updatedRoom.owner._id,
+                            name: updatedRoom.owner.name,
+                            email: updatedRoom.owner.email
+                        },
                         message: 'User added'
                     })
+                    console.log("done")
                     return res.json({
                         success: true,
                         user: {
@@ -119,15 +129,24 @@ const removeUser = async (req, res, next) => {
                 }
                 console.log(user)
                 room.users.pull({id:user._id})
-                await room.save()
-                user.room.pull(roomId)
+                const newRoom=await room.save()
+                user.room=user.room.filter(room=>room.id.toString()!==newRoom._id.toString())
                 await user.save()
                 await socket.emit('user-removed', {
                     roomId: room._id,
+                    room: {
+                        name: room.name,
+                        description: room.description
+                    },
                     user: {
                         id: user._id,
                         name: user.name,
                         email: user.email
+                    },
+                    owner: {
+                        id: room.owner._id,
+                        name: room.owner.name,
+                        email: room.owner.email
                     },
                     message: 'User removed'
                 })

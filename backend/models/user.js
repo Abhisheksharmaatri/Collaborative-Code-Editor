@@ -24,7 +24,11 @@ const userSchema = new mongoose.Schema({
         enum: ['owner', 'user']
       }
     }
-  ]
+  ],
+  img: {
+    type: String,
+    req: true
+  }
 })
 
 module.exports = mongoose.model('User', userSchema)

@@ -87,7 +87,14 @@ const get = async (req, res, next) => {
       } else {
         return res.json({
           success: true,
-          data: room
+          data: {
+            room: room,
+            user: {
+              id: req.user._id,
+              name: req.user.name,
+              email: req.user.email
+            }
+          }
         })
       }
     } catch (err) {
@@ -164,8 +171,7 @@ const remove = async (req, res, next) => {
         error.statusCode = 401
         next(error)
       } else if (
-        room.owner._id.toString() !== req.user._id.toString() &&
-        room.users.indexOf(req.user._id) === -1
+        room.owner._id.toString() !== req.user._id.toString()
       ) {
         const error = new Error('Not authorized')
         error.statusCode = 401

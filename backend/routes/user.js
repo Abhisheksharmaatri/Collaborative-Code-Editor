@@ -5,6 +5,8 @@ const config = require('../config')
 const auth = require('../middleware/auth')
 const router = express.Router()
 
+const upload=require('../middleware/upload')
+
 const { signup, login, get, deleteUser } = require('../controllers/user')
 
 router.post(

@@ -7,6 +7,12 @@ const socketIo = require('socket.io') // Import socket.io
 const socketHandler = require('./middleware/socketHandler')
 const app = express()
 const config = require('./config')
+const path=require('path')
+
+if (process.env.NODE_ENV !== 'production') {
+  const dotenv = require('dotenv');
+  dotenv.config();
+}
 
 const server = http.createServer(app)
 const io = socketIo(server, {
@@ -22,10 +28,12 @@ const roomRoutes = require('./routes/room')
 const roomUserRoutes = require('./routes/room-user')
 const roomCommentRoutes = require('./routes/comment')
 const codeRoutes = require('./routes/code')
-const error = require('./middleware/error')
+const error = require('./middleware/error');
+const multer = require('multer');
 
 app.use(cors(config.cors))
 app.use(bodyParser.json())
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.use((req, res, next) => {
   console.log('Request: ', req.body)
@@ -41,17 +49,33 @@ app.use('/room', roomCommentRoutes)
 app.use('/code', codeRoutes)
 
 app.use(error)
-
+// mongoose
+//   .connect(process.env.DB_URL)
+//   .then(result => {
+//     console.log('Connected to database');
+//     server.listen(process.env.PORT, () => {
+//       console.log(`Server is running on port ${process.env.PORT}`);
+//     });
+//   })
+//   .catch(err => console.log(err));
+// mongoose
+//   .connect('mongodb+srv://alexwolfdog:alexwolfdog@code-collabortator.licgrid.mongodb.net/?retryWrites=true&w=majority&appName=Code-Collabortator')
+//   .then(result => {
+//     console.log('Connected to database');
+//     server.listen(4000, () => {
+//       console.log(`Server is running on port 4000`);
+//     });
+//   })
+//   .catch(err => console.log(err));
 mongoose
   .connect(process.env.DB_URL)
-  .then(result => {
+  .then(() => {
     console.log('Connected to database');
     server.listen(process.env.PORT, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
     });
   })
   .catch(err => console.log(err));
-
 // WebSocket handling
 socketHandler(server)
 

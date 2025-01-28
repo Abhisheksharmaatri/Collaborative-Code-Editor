@@ -6,40 +6,58 @@ const User = require('../models/user')
 const Room = require('../models/room')
 
 const config = require('../config')
+const multer = require('multer');
+const path = require('path');
+
+const upload=require('../middleware/upload')
+
 
 const signup = async (req, res, next) => {
-  const error = validationResult(req)
+  const error = validationResult(req);
   if (!error.isEmpty()) {
     const err = new Error('Validation failed')
-    err.error = { ...error }
     err.message = error.array()
     err.statusCode = 422
     next(err)
-  } else {
+  }else{
+
     const email = req.body.email
     const name = req.body.name
     const password = req.body.password
-    try {
-      const user = await User.findOne({ email: email })
-      if (user) {
-        const error = new Error('User already exists')
-        error.statusCode = 401
-        next(error)
-      } else {
-        const salt = bcrypt.genSaltSync(config.user.password.saltRounds)
-        const hash = bcrypt.hashSync(password, salt)
-        const user = new User({ email, name, password: hash })
-        await user.save()
-        return res.json({
-          success: true
-        })
-      }
-    } catch (err) {
-      err.statusCode = 500
-      next(err)
+    console.log(req.body)
+  const image = req.file ? req.file.filename : null;  // Get image filename from Multer
+
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      const error = new Error('User already exists');
+      error.statusCode = 401;
+      return next(error);
     }
-  }
-}
+
+    const salt = bcrypt.genSaltSync(config.user.password.saltRounds);
+    const hash = bcrypt.hashSync(password, salt);
+
+    const newUser = new User({
+      email,
+      name,
+      password: hash,
+      image  // Save the filename of the uploaded image
+    });
+
+    await newUser.save();
+
+    return res.json({
+      success: true,
+      message: 'User created successfully'
+    });
+  } catch (err) {
+    err.statusCode = 500;
+    console.log(err);
+    return next(err);
+  }}
+};
+
 
 const login = async (req, res, next) => {
   const error = validationResult(req)
@@ -111,20 +129,6 @@ const get = async (req, res, next) => {
   }
 }
 
-// const logout = async () => {
-//   const error = validationResult(req)
-//   if (!error.isEmpty()) {
-//     const err = new Error('Validation failed')
-//     err.message = error.array()
-//     err.statusCode = 422
-//     next(err)
-//   } else {
-//     //Emplement the logic to delete the token from user side
-//     const toke
-//   }
-//   // TODO: implement logout
-// }
-
 const deleteUser = async (req, res, next) => {
   const error = validationResult(req)
   if (!error.isEmpty()) {
@@ -165,30 +169,6 @@ const deleteUser = async (req, res, next) => {
     }
   }
 }
-
-// const makeRequest = async (req, res, next) => {
-//   const error = validationResult(req)
-//   if (!error.isEmpty()) {
-//     const err = new Error('Validation failed');
-//     err.message = error.array();
-//     err.statusCode = 422;
-//     next(err);
-//   } else {
-//     const roomId = req.body.roomId;
-//     const userId = req.user._id;
-//     try {
-//       const room = Room.findById(roomId).populate('room.id');
-//       if (!room) {
-//         const error = new Error('Room not found');
-//         error.statusCode = 401;
-//         next(error);
-//       }
-//       else {
-
-//       }
-//     }
-//   }
-//  }
 
 module.exports = {
   signup,
