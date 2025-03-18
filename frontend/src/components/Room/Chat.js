@@ -74,11 +74,11 @@ const Chat = (props) => {
             <h3>Chat</h3>
             <div className="chat__messages">
                 {console.log(props.chat)}
-                {(props.chat||[]).map((comment, index) => (
+                {/* {(props.chat||[]).map((comment, index) => (
                     <div className="chat__message" key={index}>
                         <b>{comment.sender.name}:</b> {comment.comment}
                     </div>
-                ))}
+                ))} */}
                 <div ref={chatEndRef}></div> {/* This ensures scrolling to bottom */}
             </div>
             <h3>Comment</h3>
