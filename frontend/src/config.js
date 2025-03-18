@@ -2,7 +2,8 @@ module.exports = {
     backend: {
         // url: 'http://localhost:4000'
         // url:'https://collaborative-code-editor-bdy7.onrender.com'
-        url:'https://collaborative-code-editor-backend-code.onrender.com'
+        // url:'https://collaborative-code-editor-backend-code.onrender.com'
+        url:'https://collaborative-code-editor-backend.vercel.app'
     },
     user: {
         name: {
