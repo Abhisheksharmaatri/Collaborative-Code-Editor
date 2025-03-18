@@ -6,7 +6,8 @@ module.exports = function (server) {
     cors: {
       //origin: 'http://localhost:3000',
       // origin: 'https://collaborative-code-editor-frontend.onrender.com',
-      origin:'https://collaborative-code-editor-ig9wvgcfp.vercel.app',
+      // origin:'https://collaborative-code-editor-ig9wvgcfp.vercel.app',
+      origin:'https://collaborative-code-editor-three.vercel.app',
       methods: ['GET', 'POST', 'DELETE']
     }
   })
