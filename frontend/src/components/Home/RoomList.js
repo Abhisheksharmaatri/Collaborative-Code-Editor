@@ -1,7 +1,4 @@
 function RoomList(props) {
-    //i want to create a room list component which shocasw the list of all the rooms which ahs the following strutur:
-    //     room: Array(1)
-    // 0: {_id: "654b0e96d4a56f7192067ad6", name: "room123", description: "this is am room", code: "this is edit↵this is another edit", owner: "654b0e62d4a56f7192067ad1", …}
 
     return (
         <div className="RoomList">

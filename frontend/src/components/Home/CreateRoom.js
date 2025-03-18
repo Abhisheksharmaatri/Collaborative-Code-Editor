@@ -8,6 +8,16 @@ const CreateRoom = () => {
     const [descriptionError, setDescriptionError] = useState('');
     const [message, setMessage] = useState('');
 
+    const updateName = (e) => {
+        setName(e.target.value);
+        setNameError('');
+    };
+
+    const updateDescription = (e) => {
+        setDescription(e.target.value);
+        setDescriptionError('');
+    };
+
     const validateName = () => {
         if (name.length < room.name.length) {
             setNameError('Name must be at least ' + room.name.length + ' characters long.');
@@ -74,15 +84,17 @@ const CreateRoom = () => {
                 <div className='form-group'>
                     <label htmlFor='name'>Name</label>
                     <input type='text' className='form-control' id='name' placeholder='Enter name' value={name} onChange={e => setName(e.target.value)} />
-                    <small className='form-text text-muted'>{nameError}</small>
+                    <text className='message__danger'>{nameError}</text>
                 </div>
                 <div className='form-group'>
                     <label htmlFor='description'>Description</label>
                     <input type='text' className='form-control' id='description' placeholder='Enter description' value={description} onChange={e => setDescription(e.target.value)} />
-                    <small className='form-text text-muted'>{descriptionError}</small>
+                    <text className='message__danger'>{descriptionError}</text>
                 </div>
-                <button className='btn btn-primary' onClick={handleCreateRoom}>Create</button>
-                <small className='form-text text-muted'>{message}</small>
+                <div className='form-group'>
+                    <button className='btn btn-primary' onClick={handleCreateRoom}>Create</button>
+                    <text className='message__danger'>{message}</text>
+                </div>
             </div>
         </div>
     );

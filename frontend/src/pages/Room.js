@@ -14,8 +14,10 @@ function Room(props) {
     const [code, setCode] = useState('Fetching code...');
     const [language, setLanguage] = useState('python');
     const [input, setInput] = useState('');
+    const [user, setUser] = useState({});
     const [output, setOutput] = useState('Please run the code to see the output');
     const [message, setMessage] = useState('Fetching room...');
+    const [update, setUpdate] = useState(false);
     const [chat, setChat] = useState([
         {
             sender: {
@@ -67,10 +69,12 @@ function Room(props) {
             .then(data => {
                 console.log(data)
                 if (data.success) {
-                    setRoom(data.data);
-                    setCode(data.data.code);
-                    setChat(data.data.chat);
+                    console.log(data.data);
+                    setRoom(data.data.room);
+                    setCode(data.data.room.code);
+                    setChat(data.data.room.chat);
                     setMessage('Room fetched successfully');
+                    setUser(data.data.user);
                 } else {
                     // window.location.href = '/login';
                     setMessage(data.message)
@@ -166,15 +170,44 @@ function Room(props) {
             setChat(updatedChat);
         });
         props.socket.on('user-added', (newUser) => {
-            console.log("new user: ", newUser)
-            console.log("roomIds: ",roomId,"====",newUser.roomId)
+            console.log("new user: ", newUser);
             if (roomId === newUser.roomId) {
-                setRoom({ ...room, users: [...room.users, newUser] });
+                console.log("yes, this is the room");
+        
+                setRoom((prevRoom) => {
+                    // Check if the user already exists in the room
+                    const userExists = prevRoom.users.some(user => user.email === newUser.user.email);
+                    
+                    if (!userExists) {
+                        return {
+                            ...prevRoom,
+                            users: [...prevRoom.users, newUser.user]
+                        };
+                    }
+        
+                    return prevRoom; // Return unchanged if user already exists
+                });
             }
         });
         props.socket.on('user-removed', (removedUser) => {
-            console.log("removed user: ",removedUser)
-            setRoom({...room, users:room.users.filter(user => user.email !== removedUser.email)});
+            console.log("removed user: ", removedUser);
+            if (removedUser.roomId === roomId) {
+                console.log("yes, this is the room");
+        
+                setRoom((prevRoom) => {
+                    // Check if the user exists in the list before attempting to remove
+                    const userExists = prevRoom.users.some(user => user.email === removedUser.user.email);
+        
+                    if (userExists) {
+                        return {
+                            ...prevRoom,
+                            users: prevRoom.users.filter(user => user.email !== removedUser.user.email)
+                        };
+                    }
+        
+                    return prevRoom; // Return unchanged if user does not exist
+                });
+            }
         });
         props.socket.on('room-deleted', (room) => {
             if (room.id === roomId) {
@@ -182,13 +215,7 @@ function Room(props) {
                 window.location.href = '/home';
             }
         })
-        props.socket.on('user-removed', (room) => {
-            if (room.roomId === roomId && room.user.id===user.id) {
-                setMessage('Room deleted');
-                window.location.href = '/home';
-            }
-        })
-    },[props.socket]);
+    },[]);
     return (
         <div className="room__container">
             <div className='room__info'>

@@ -73,6 +73,16 @@ function Login(props) {
         }
     }
 
+    const updateEmail = (e) => { 
+        setEmail(e.target.value)
+        setMessage('')
+    }
+
+    const updatePassword = (e) => {
+        setPassword(e.target.value)
+        setMessage('')
+    }
+
     return (
         <div className="login__container">
             {/* Akshat update */}
@@ -84,16 +94,16 @@ function Login(props) {
             <form onSubmit={handleLogin} className='login__form'>
                 <div className="form__group">
                     <label htmlFor="email">Email address</label>
-                    <input type="text" id="email" className="form-control" value={email} onChange={e => setEmail(e.target.value)} onBlur={checkEmail} />
+                    <input type="text" id="email" className="form-control" value={email} onChange={e => updateEmail(e)} onBlur={checkEmail} />
                     <small className="text-danger">{emailError}</small>
                 </div>
                 <div className="form__group">
                     <label htmlFor="password">Password</label>
-                    <input type="text" id="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} onBlur={checkPassword} />
+                    <input type="text" id="password" className="form-control" value={password} onChange={e => updatePassword(e)} onBlur={checkPassword} />
                     <small className="text-danger">{passwordError}</small>
                 </div>
                 <div className='form__message'>
-                    <h3>{message}</h3>
+                    <text className="message__danger">{message}</text>
                 </div>
                 <div className="form__actions">
                     <button type="submit" className="btn btn-primary">Login</button>
