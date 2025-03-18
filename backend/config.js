@@ -27,12 +27,17 @@ module.exports = {
       'https://86s0767f-3000.inc1.devtunnels.ms',
       'https://collaborative-code-editor-frontend.onrender.com',
       'https://collaborative-code-editor-frontend-code.onrender.com',
-      'https://collaborative-code-editor-frontend.onrender.com'
+      'https://collaborative-code-editor-frontend.onrender.com',
+      'https://collaborative-code-editor-ig9wvgcfp.vercel.app/'
     ]
   },
   socket:{
     // url:'https://collaborative-code-editor-bdy7.onrender.com'
-    url:'https://collaborative-code-editor-frontend.onrender.com',
+    // url:'https://collaborative-code-editor-frontend.onrender.com',
     url: 'http://localhost:4000'
+  },
+  db: {
+    url: "mongodb+srv://alexwolfdog:alexwolfdog@code-collabortator.licgrid.mongodb.net/?retryWrites=true&w=majority&appName=Code-Collabortator",
+    port:4000
   }
 }
