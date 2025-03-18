@@ -28,7 +28,7 @@ module.exports = {
       'https://collaborative-code-editor-frontend.onrender.com',
       'https://collaborative-code-editor-frontend-code.onrender.com',
       'https://collaborative-code-editor-frontend.onrender.com',
-      'https://collaborative-code-editor-ig9wvgcfp.vercel.app/'
+      'https://collaborative-code-editor-ig9wvgcfp.vercel.app'
     ]
   },
   socket:{
