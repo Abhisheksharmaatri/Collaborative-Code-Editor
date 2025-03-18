@@ -7,6 +7,7 @@ const Chat = (props) => {
     const chatEndRef = useRef(null);
 
     useEffect(() => {
+        console.log(props)
         const handleCommentAdded = (newComment) => {
             if(newComment.id===props.roomId){console.log("new chat: ", newComment);
             props.setChat([...props.chat, newComment]);
