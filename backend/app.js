@@ -31,6 +31,17 @@ const codeRoutes = require('./routes/code')
 const error = require('./middleware/error');
 const multer = require('multer');
 
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', '*'); // Replace with frontend URL for security
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    return res.status(200).json({});
+  }
+  next();
+});
+
+
 app.use(cors(config.cors))
 app.use(bodyParser.json())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
