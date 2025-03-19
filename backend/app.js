@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 const server = http.createServer(app)
 const io = socketIo(server, {
   cors: {
-    origin: config.cors.origin, // Replace with the allowed origin(s)
+    origin: '*', // Replace with the allowed origin(s)
     methods: ['GET', 'POST'], // Specify the allowed methods
     credentials: true // Allow credentials (cookies, authorization headers)
   }
