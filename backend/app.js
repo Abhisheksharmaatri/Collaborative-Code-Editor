@@ -42,7 +42,15 @@ app.use((req, res, next) => {
 });
 
 
-app.use(cors(config.cors))
+app.use(
+  cors({
+    origin: "https://collaborative-code-editor-three.vercel.app", // Frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 app.use(bodyParser.json())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
