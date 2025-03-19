@@ -3,8 +3,8 @@ module.exports = {
         // url: 'http://localhost:4000'
         // url:'https://collaborative-code-editor-bdy7.onrender.com'
         // url:'https://collaborative-code-editor-backend-code.onrender.com'
-        // url:'https://collaborative-code-editor-backend.vercel.app'
-        url:'https://collaborative-code-editor-backend-drp2ddex1.vercel.app'
+        url:'https://collaborative-code-editor-backend.vercel.app'
+        // url:'https://collaborative-code-editor-backend-drp2ddex1.vercel.app'
     },
     user: {
         name: {
