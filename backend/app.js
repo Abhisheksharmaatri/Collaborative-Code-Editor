@@ -15,13 +15,13 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const server = http.createServer(app)
-const io = socketIo(server, {
-  cors: {
-    origin: '*', // Replace with the allowed origin(s)
-    methods: ['GET', 'POST'], // Specify the allowed methods
-    credentials: true // Allow credentials (cookies, authorization headers)
-  }
-})
+// const io = socketIo(server, {
+//   cors: {
+//     origin: '*', // Replace with the allowed origin(s)
+//     methods: ['GET', 'POST'], // Specify the allowed methods
+//     credentials: true // Allow credentials (cookies, authorization headers)
+//   }
+// })
 
 const userRoutes = require('./routes/user')
 const roomRoutes = require('./routes/room')
