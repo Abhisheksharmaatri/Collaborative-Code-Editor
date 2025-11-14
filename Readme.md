@@ -84,9 +84,9 @@ To get started with this project, follow these steps:
 
 ## Acknowledgments
 
-We would like to thank the open-source community for providing the tools and libraries that made this project possible.
+I would like to thank the open-source community for providing the tools and libraries that made this project possible.
 
-If you have any questions or feedback, please don't hesitate to reach out to us!
+If you have any questions or feedback, please don't hesitate to reach out to me!
 
 # Backend Routes and Controllers
 
