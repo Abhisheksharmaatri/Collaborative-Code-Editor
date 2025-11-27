@@ -1,12 +1,4 @@
-//Fixes
-fix the code for the sockets for removing and adding user
-fix the code for the error messages for the code running
 
-//Todo 
-Updte the code of user to incorporate the use of rooms
-
-
-Creating a real-time collaborative code editor and debugger is a complex project that involves several stages of development, from planning and design to implementation and testing. To ensure that you have a comprehensive understanding of the project, I'll provide a detailed plan with elaborated steps and a timeline.
 
 **Project Plan: Real-time Collaborative Code Editor and Debugger**
 
